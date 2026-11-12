@@ -97,3 +97,158 @@
 .collection__view-all a:not(.link) {
   margin-top: 1rem;
 }
+
+
+/* ========================================
+   PRODUCT CARD - Action Buttons (Quick Add + Notify)
+   ======================================== */
+
+.card__inner {
+  position: relative;
+}
+
+.card__action-button {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  z-index: 100;
+  pointer-events: auto;
+}
+
+.card__media {
+  pointer-events: none;
+}
+
+.card__media .media img {
+  pointer-events: auto;
+}
+
+.card__action-button {
+  pointer-events: auto !important;
+}
+
+.card__quick-add-btn,
+.card__notify-btn {
+  pointer-events: auto !important;
+}
+
+.card__quick-add-btn,
+.card__notify-btn {
+  z-index: 999 !important;
+}
+
+/* Disable card hover effect when button is being hovered */
+.product-card-wrapper:has(.card__quick-add-btn:hover) .media--hover-effect,
+.product-card-wrapper:has(.card__notify-btn:hover) .media--hover-effect {
+  pointer-events: none;
+}
+
+.card__quick-add-btn,
+.card__notify-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  background-color: #fff;
+  color: #000;
+  transition: all 0.3s ease;
+  padding: 0;
+  z-index: 101;
+  position: relative;
+  pointer-events: auto;
+}
+
+.card__quick-add-btn:hover,
+.card__notify-btn:hover {
+  background-color: #2C3E50;
+  color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+.card__quick-add-btn:hover svg,
+.card__notify-btn:hover svg {
+  color: white;
+  stroke: white;
+}
+
+.card__quick-add-btn:hover svg path,
+.card__notify-btn:hover svg path {
+  stroke: white;
+}
+
+.card__quick-add-btn:active,
+.card__notify-btn:active {
+  transform: translateY(0);
+}
+
+@media (max-width: 425px) {
+  .card__quick-add-btn, .card__notify-btn {
+    width: 25.63px;
+    height: 25.63px;
+  }
+}
+ 
+.card__action-button svg {
+  width: 2rem;
+  height: 2rem;
+  stroke-width: 2;
+  color: #000;
+}
+
+.card__action-button svg path {
+  stroke: #000;
+}
+
+@media screen and (max-width: 749px) {
+  .card__action-button {
+    bottom: 1rem;
+    right: 1rem;
+  }
+
+  .card__notify-btn {
+    width: 25.63px;
+    height: 25.63px;
+  }
+
+  .card__action-button svg {
+    width: 9.96px;
+    height: 10.79px;
+  }
+}
+
+.card__badge {
+  position: absolute;
+  bottom: 0.8rem;
+  left: 0.8rem;
+  z-index: 1;
+}
+
+
+.badge {
+  font-family: Assistant;
+  font-weight: 400;
+  font-style: Regular;
+  font-size: 13px;
+  line-height: 100%;
+  letter-spacing: 2%;
+  padding: 3px 12px 3.5px 12px;
+  color: white;
+  background: #272937;
+  border-radius: 100px;
+}
+
+.sale-product {
+  background: #2651BB;
+}
+
+@media screen and (max-width: 749px) {
+  .card__badge {
+    bottom: 10.12px;
+    left: 10.12px;
+  }
+}
