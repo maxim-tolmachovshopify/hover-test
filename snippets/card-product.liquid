@@ -22,6 +22,12 @@
   @example
   {% render 'card-product', card_product: product, media_aspect_ratio: 'adapt', show_secondary_image: true, section_id: section.id, quick_add: 'standard', product_view_context: 'collection' %}
 {% enddoc %}
+
+<!--
+  ========================================
+  PRODUCT CARD - Stylesheets
+  ========================================
+-->
 {%- unless skip_styles -%}
   {{ 'component-rating.css' | asset_url | stylesheet_tag }}
   {{ 'component-volume-pricing.css' | asset_url | stylesheet_tag }}
@@ -30,6 +36,12 @@
   {{ 'quick-order-list.css' | asset_url | stylesheet_tag }}
   {{ 'quantity-popover.css' | asset_url | stylesheet_tag }}
 {%- endunless -%}
+
+<!--
+  ========================================
+  PRODUCT CARD - Product Logic & Variables
+  ========================================
+-->
 {%- if card_product and card_product != empty -%}
   {%- liquid
     assign ratio = 1
@@ -41,9 +53,27 @@
     if ratio == 0 or ratio == null
       assign ratio = 1
     endif
+
+    # Determine which button to show: Quick Add (+) or Notify Me (🔔)
+    # Quick Add shown if: product has available variants OR has 'naomi' metafield
+    # Notify Me shown if: product is completely sold out
+    assign has_available_variant = card_product.available
+    assign has_naomi_metafield = false
+    if card_product.metafields.custom.text.value == 'naomi'
+      assign has_naomi_metafield = true
+    endif
+    assign show_quick_add_button = false
+    if has_available_variant or has_naomi_metafield
+      assign show_quick_add_button = true
+    endif
   -%}
 
   <product-component view-event-payload="{{ card_product | standard_event_data: 'view', context: product_view_context | escape }}">
+    <!--
+      ========================================
+      PRODUCT IMAGE & ACTION BUTTONS
+      ========================================
+    -->
     <div class="card-wrapper product-card-wrapper underline-links-hover">
       <div
         class="
@@ -109,7 +139,79 @@
                 {%- endif -%}
               </div>
             </div>
+            {%- if card_product.featured_media -%}
+              <!-- Action Button: Quick Add (+) or Notify Me (🔔) -->
+              <div class="card__action-button">
+                {%- if show_quick_add_button -%}
+                  {%- capture product_json -%}
+            {
+              "id": {{ card_product.id }},
+              "handle": {{ card_product.handle | json }},
+              "title": {{ card_product.title | json }},
+              "featured_image": {{ card_product.featured_image | json }},
+              "description": {{ card_product.description | json }},
+              "price": {{ card_product.price }},
+              "compare_at_price": {{ card_product.compare_at_price | default: 0 }},
+              "available": {{ card_product.available | json }},
+              "variants": [{% for variant in card_product.variants %}{%- if forloop.index > 1 %},{%- endif %}{
+                "id": {{ variant.id }},
+                "title": {{ variant.title | json }},
+                "option1": {{ variant.option1 | json }},
+                "option2": {{ variant.option2 | json }},
+                "option3": {{ variant.option3 | json }},
+                "available": {{ variant.available | json }},
+                "inventory_quantity": {{ variant.inventory_quantity }}
+              }{% endfor %}]
+            }
+                  {%- endcapture -%}
+                  <button
+                    class="card__quick-add-btn"
+                    data-product="{{ product_json | strip }}"
+                    aria-label="Quick add"
+                    title="Quick add"
+                    type="button"
+                  >
+                    <svg
+                      class="icon-plus"
+                      width="20"
+                      height="20"
+                      viewBox="0 0 20 20"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path d="M10 2V18M2 10H18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                  </button>
+                {%- else -%}
+                  <button
+                    class="card__notify-btn"
+                    data-product-id="{{ card_product.id }}"
+                    aria-label="Notify me"
+                    title="Notify me when in stock"
+                    type="button"
+                  >
+                    <svg
+                      class="icon-bell"
+                      width="20"
+                      height="20"
+                      viewBox="0 0 20 20"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path d="M10 2C6.2 2 3 5.2 3 9V11.5C3 14.5 1 16 1 16H19C19 16 17 14.5 17 11.5V9C17 5.2 13.8 2 10 2Z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                      <rect x="8.5" y="16.5" width="3" height="1.5" rx="0.75" fill="currentColor"/>
+                    </svg>
+                  </button>
+                {%- endif -%}
+              </div>
+            {%- endif -%}
           {%- endif -%}
+
+          <!--
+            ========================================
+            PRODUCT INFORMATION - Title & Badge
+            ========================================
+          -->
           <div class="card__content">
             <div class="card__information">
               <h3
@@ -129,24 +231,30 @@
               </h3>
             </div>
             <div class="card__badge {{ settings.badge_position }}">
-              {%- if card_product.available == false -%}
+              {%- if card_product.compare_at_price > card_product.price and card_product.available -%}
+                <span
+                  id="NoMediaStandardBadge-{{ section_id }}-{{ card_product.id }}"
+                  class="badge badge--bottom-left sale-product color-{{ settings.sale_badge_color_scheme }}"
+                >
+                  {{- 'products.product.on_sale' | t -}}
+                </span>
+              {%- elsif card_product.available == false -%}
                 <span
                   id="NoMediaStandardBadge-{{ section_id }}-{{ card_product.id }}"
                   class="badge badge--bottom-left color-{{ settings.sold_out_badge_color_scheme }}"
                 >
                   {{- 'products.product.sold_out' | t -}}
                 </span>
-              {%- elsif card_product.compare_at_price > card_product.price and card_product.available -%}
-                <span
-                  id="NoMediaStandardBadge-{{ section_id }}-{{ card_product.id }}"
-                  class="badge badge--bottom-left color-{{ settings.sale_badge_color_scheme }}"
-                >
-                  {{- 'products.product.on_sale' | t -}}
-                </span>
               {%- endif -%}
             </div>
           </div>
         </div>
+
+        <!--
+          ========================================
+          PRODUCT DETAILS - Title, Price, Rating, Quick Add
+          ========================================
+        -->
         <div class="card__content">
           <div class="card__information">
             <h3
@@ -553,19 +661,19 @@
             {% endif %}
           {% endif %}
           <div class="card__badge {{ settings.badge_position }}">
-            {%- if card_product.available == false -%}
-              <span
-                id="Badge-{{ section_id }}-{{ card_product.id }}"
-                class="badge badge--bottom-left color-{{ settings.sold_out_badge_color_scheme }}"
-              >
-                {{- 'products.product.sold_out' | t -}}
-              </span>
-            {%- elsif card_product.compare_at_price > card_product.price and card_product.available -%}
+            {%- if card_product.compare_at_price > card_product.price and card_product.available -%}
               <span
                 id="Badge-{{ section_id }}-{{ card_product.id }}"
                 class="badge badge--bottom-left color-{{ settings.sale_badge_color_scheme }}"
               >
                 {{- 'products.product.on_sale' | t -}}
+              </span>
+            {%- elsif card_product.available == false -%}
+              <span
+                id="Badge-{{ section_id }}-{{ card_product.id }}"
+                class="badge badge--bottom-left color-{{ settings.sold_out_badge_color_scheme }}"
+              >
+                {{- 'products.product.sold_out' | t -}}
               </span>
             {%- endif -%}
           </div>
@@ -573,6 +681,12 @@
       </div>
     </div>
   </product-component>
+
+  <!--
+    ========================================
+    PLACEHOLDER CARD - When product is empty
+    ========================================
+  -->
 {%- else -%}
   {%- liquid
     assign ratio = 1

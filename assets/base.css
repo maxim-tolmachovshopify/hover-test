@@ -480,22 +480,6 @@ table:not([class]) th {
   opacity: 0.7;
 }
 
-a:empty,
-ul:empty,
-dl:empty,
-div:empty,
-section:empty,
-article:empty,
-p:empty,
-h1:empty,
-h2:empty,
-h3:empty,
-h4:empty,
-h5:empty,
-h6:empty {
-  display: none;
-}
-
 .link,
 .customer a {
   cursor: pointer;
@@ -561,9 +545,21 @@ hr {
 }
 
 .full-unstyled-link {
+  font-family: Assistant;
+  font-weight: 400;
+  font-style: Regular;
+  font-size: 13px;
+  line-height: 100%;
+  letter-spacing: 2.5%;
+  color: black;
+  padding-bottom: 8px;
   text-decoration: none;
-  color: currentColor;
-  display: block;
+}
+
+@media (max-width: 425px) {
+  .full-unstyled-link {
+    padding-bottom: 12.14px;
+  }
 }
 
 .placeholder {
@@ -2954,21 +2950,6 @@ details-disclosure > details {
   .overflow-hidden-tablet {
     overflow: auto;
   }
-}
-
-.badge {
-  border: 1px solid transparent;
-  border-radius: var(--badge-corner-radius);
-  display: inline-block;
-  font-size: 1.2rem;
-  letter-spacing: 0.1rem;
-  line-height: 1;
-  padding: 0.5rem 1.3rem 0.6rem 1.3rem;
-  text-align: center;
-  background-color: rgb(var(--color-badge-background));
-  border-color: rgba(var(--color-badge-border), var(--alpha-badge-border));
-  color: rgb(var(--color-badge-foreground));
-  word-break: break-word;
 }
 
 .gradient {

@@ -1,0 +1,50 @@
+<div class="quick-add-drawer" id="quick-add-drawer" data-drawer>
+  <!-- Overlay -->
+  <div class="quick-add-drawer__overlay" data-drawer-close></div>
+
+  <!-- Drawer Content -->
+  <div class="quick-add-drawer__content">
+    <!-- Header -->
+    <div class="quick-add-drawer__header">
+      <h2 class="quick-add-drawer__header-title">Select my size</h2>
+      <button class="quick-add-drawer__close" data-drawer-close aria-label="Close drawer">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Scrollable Content -->
+    <div class="quick-add-drawer__body">
+      <!-- Product Info -->
+      <div class="quick-add-drawer__product">
+        <div class="quick-add-drawer__product-image">
+          <img class="drawer-product-image" src="" alt="Product image" width="" height="">
+        </div>
+
+        <div class="quick-add-drawer__product-details">
+          <h3 class="quick-add-drawer__product-title drawer-product-title"></h3>
+          <p class="quick-add-drawer__product-description drawer-product-description"></p>
+
+          <div class="quick-add-drawer__product-price">
+            <span class="quick-add-drawer__compare-price drawer-compare-price" style="display: none;"></span>
+            <span class="quick-add-drawer__price drawer-product-price"></span>
+            <span class="quick-add-drawer__sale-badge drawer-sale-badge" style="display: none;">Sale</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Color Selector - Only rendered if product has variants -->
+      <div class="quick-add-drawer__section drawer-color-section" style="display: none;" data-has-colors="false">
+        <label class="quick-add-drawer__section-label">Color</label>
+        <div class="quick-add-drawer__color-list drawer-color-list"></div>
+      </div>
+
+      <!-- Size Selector with Stock - Only rendered if product has variants -->
+      <div class="quick-add-drawer__section drawer-size-section" style="display: none;" data-has-sizes="false">
+        <label class="quick-add-drawer__section-label">Size</label>
+        <div class="quick-add-drawer__size-list drawer-size-list"></div>
+      </div>
+    </div>
+  </div>
+</div>

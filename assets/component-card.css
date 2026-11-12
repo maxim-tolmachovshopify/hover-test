@@ -119,7 +119,7 @@
 
 .card--media .card__inner .card__content {
   position: relative;
-  padding: calc(var(--image-padding) + 1rem);
+  padding: 10px;
 }
 
 .card__content {
@@ -137,6 +137,13 @@
 .card__information {
   grid-row-start: 2;
   padding: 1.3rem 1rem;
+}
+
+@media (max-width: 425px) {
+  .card__information {
+    padding-top: 12.14px;
+    padding-bottom: 20px;
+  }
 }
 
 .card:not(.ratio) > .card__content {
@@ -265,8 +272,8 @@
 
 @media screen and (min-width: 750px) {
   .card__information {
-    padding-bottom: 1.7rem;
-    padding-top: 1.7rem;
+    padding-bottom: 50px;
+    padding-top: 20px;
   }
 }
 
@@ -301,8 +308,18 @@
 }
 
 .card__heading {
-  margin-top: 0;
-  margin-bottom: 0;
+  font-family: Assistant;
+  font-weight: 400;
+  font-style: Regular;
+  font-size: 13px;
+  line-height: 100%;
+  letter-spacing: 2.5%;
+}
+
+@media (max-width: 425px) {
+  .card__heading {
+    margin: 0px;
+  }
 }
 
 .card__heading:last-child {
@@ -346,15 +363,6 @@
   top: calc(var(--border-width) * -1);
 }
 
-.card__heading a::after {
-  bottom: 0;
-  content: '';
-  left: 0;
-  position: absolute;
-  right: 0;
-  top: 0;
-  z-index: 1;
-}
 
 .card__heading a:after {
   outline-offset: 0.3rem;
