@@ -15,6 +15,7 @@
 
 {%- if section.settings.quick_add == 'standard' -%}
   <script src="{{ 'quick-add.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'quick-add-drawer.js' | asset_url }}" defer="defer"></script>
 {%- endif -%}
 
 {%- if section.settings.quick_add == 'bulk' -%}
@@ -452,7 +453,7 @@
     {
       "type": "select",
       "id": "quick_add",
-      "default": "none",
+      "default": "standard",
       "label": "t:sections.main-collection-product-grid.settings.quick_add.label",
       "options": [
         {

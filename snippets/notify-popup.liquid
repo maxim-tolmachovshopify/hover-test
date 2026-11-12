@@ -1,0 +1,50 @@
+<div class="notify-popup" id="notify-popup" data-notify>
+  <!-- Overlay -->
+  <div class="notify-popup__overlay" data-notify-close></div>
+
+  <!-- Modal Content -->
+  <div class="notify-popup__content">
+    <!-- Close Button -->
+    <button class="notify-popup__close" data-notify-close aria-label="Close">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </button>
+
+    <!-- Product Info -->
+    <div class="notify-popup__header">
+      <h3 class="notify-popup__title" data-notify-product-title>Louise Slide Sandal</h3>
+      <p class="notify-popup__description">Register to receive a notification when this item comes back in stock.</p>
+    </div>
+
+    <!-- Form -->
+    <form class="notify-popup__form" data-notify-form>
+      <!-- Variant Selector -->
+      <div class="notify-popup__field">
+        <select class="notify-popup__select" data-notify-variant required>
+          <option value="">Select size</option>
+        </select>
+      </div>
+
+      <!-- Email Input -->
+      <div class="notify-popup__field">
+        <input
+          type="email"
+          id="notify-email"
+          class="notify-popup__input"
+          placeholder="Email"
+          required
+        />
+      </div>
+
+      <!-- Submit Button -->
+      <button type="submit" class="notify-popup__button">
+        <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M10 2C6.2 2 3 5.2 3 9V11.5C3 14.5 1 16 1 16H19C19 16 17 14.5 17 11.5V9C17 5.2 13.8 2 10 2Z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+          <rect x="8.5" y="16.5" width="3" height="1.5" rx="0.75" fill="currentColor"/>
+        </svg>
+        <span>Notify me when available</span>
+      </button>
+    </form>
+  </div>
+</div>
